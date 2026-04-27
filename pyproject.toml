@@ -1,0 +1,16 @@
+[project]
+name = "churn-predictor"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Raphael Lima", email = "raphafl@gmail.com"}
+]
+requires-python = "~3.12"
+dependencies = ["python-dotenv (>=1.2.2,<2.0.0)", "structlog (>=25.5.0,<26.0.0)"]
+
+[tool.poetry]
+packages = [{ include = "churn_predictor", from = "src" }]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
