@@ -21,3 +21,9 @@ MODELS_DIR = PROJECT_ROOT / "models"
 # Dataset alvo do projeto
 RAW_FILENAME = "telco_churn.csv"
 RAW_PATH = RAW_DIR / RAW_FILENAME
+
+#Constantes para EDA e modelagem
+RANDOM_SEED = 42
+TARGET_COLUMN = "Churn"
+ID_COLUMN = "customerID"
+TEST_SIZE = 0.2
