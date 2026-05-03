@@ -1,0 +1,71 @@
+# --------- Python ---------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+build/
+dist/
+pip-wheel-metadata/
+
+# --------- Virtual envs ---------
+.venv/
+venv/
+env/
+ENV/
+
+# --------- Poetry ---------
+# poetry.lock VAI ser comitado (reprodutibilidade).
+
+# --------- Testes / cobertura ---------
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.tox/
+.nox/
+
+# --------- Linting / type checking ---------
+.ruff_cache/
+.mypy_cache/
+
+# --------- Notebooks ---------
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# --------- Dados ---------
+# Dataset bruto (telco_churn.csv) e parquet limpo SÃO comitados.
+# data/processed/ é gerado a cada execução, fica fora.
+data/processed/*
+!data/processed/.gitkeep
+
+# --------- Modelos ---------
+# Ignora tudo em models/ EXCETO o final.joblib (a API depende dele).
+# Modelos intermediários (mlp.pt, baselines.joblib, etc) ficam fora.
+models/*
+!models/final.joblib
+!models/.gitkeep
+
+# --------- MLflow ---------
+mlruns/
+mlflow.db
+mlartifacts/
+
+# --------- IDEs ---------
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# --------- Sistema ---------
+Thumbs.db
+*.log
+
+# --------- Variáveis de ambiente ---------
+.env
+.env.local
+!.env.example
