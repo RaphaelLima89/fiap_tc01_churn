@@ -63,37 +63,37 @@ PR-AUC é primária pelo desbalanceamento (26,5% positiva). Resultados no test s
 
 ## 5. Análise quantitativa por subgrupo
 
-Performance do RF no threshold 0.08, desagregada por atributos sensíveis e categorias de negócio.
+Performance do RF no threshold 0.08, desagregada por atributos sensíveis e categorias de negócio. O threshold baixo (calibrado por custo) produz recall alto e precision baixa em todos os subgrupos — assinatura do ponto de operação escolhido.
 
 | gender  | n   | Churn rate | Recall | Precision |
-|---------|-----|-----------|--------|-----------|
-| Female  | 695 | 26,9%     | 0,73   | 0,52      |
-| Male    | 714 | 26,1%     | 0,72   | 0,52      |
+|---------|-----|------------|--------|-----------|
+| Female  | 687 | 28,1%      | 0,98   | 0,37      |
+| Male    | 722 | 25,1%      | 0,97   | 0,33      |
 
 `gender` é não-discriminante (Cramér's V 0,01); performance equivalente, como esperado.
 
 | SeniorCitizen  | n     | Churn rate | Recall | Precision |
-|----------------|-------|-----------|--------|-----------|
-| 0 (não-senior) | 1.171 | 23,7%     | 0,71   | 0,52      |
-| 1 (senior)     | 238   | 41,6%     | 0,76   | 0,57      |
+|----------------|-------|------------|--------|-----------|
+| 0 (não-senior) | 1.187 | 23,3%      | 0,97   | 0,32      |
+| 1 (senior)     | 222   | 44,1%      | 0,99   | 0,48      |
 
-Seniors têm churn ~75% maior, mas o efeito vem majoritariamente de variáveis correlacionadas (`MonthlyCharges`, ausência de `Partner`/`Dependents`, contrato mensal). Sem viés problemático identificável.
+Seniors têm churn rate quase 2× maior, mas o efeito vem majoritariamente de variáveis correlacionadas (`MonthlyCharges`, ausência de `Partner`/`Dependents`, contrato mensal). A precision mais alta em seniors é consequência matemática da maior prevalência de positivos no subgrupo. Sem viés problemático identificável.
 
-| InternetService | n   | Churn rate | Recall |
-|-----------------|-----|-----------|--------|
-| No              | 305 | 7,2%      | 0,55   |
-| DSL             | 487 | 18,9%     | 0,69   |
-| Fiber optic     | 617 | 41,8%     | 0,77   |
+| InternetService | n   | Churn rate | Recall | Precision |
+|-----------------|-----|------------|--------|-----------|
+| No              | 312 | 8,0%       | 0,92   | 0,20      |
+| DSL             | 484 | 20,0%      | 0,94   | 0,26      |
+| Fiber optic     | 613 | 41,1%      | 1,00   | 0,43      |
 
-Fibra concentra o risco; modelo recupera bem (Cramér's V 0,32, feature mais informativa).
+Fibra concentra o risco e o modelo recupera 100% dos positivos. Cramér's V 0,32 com `Churn` — feature mais informativa.
 
-| Contract       | n   | Churn rate | Recall |
-|----------------|-----|-----------|--------|
-| Month-to-month | 776 | 42,9%     | 0,79   |
-| One year       | 305 | 11,1%     | 0,53   |
-| Two year       | 328 | 2,7%      | 0,33   |
+| Contract       | n   | Churn rate | Recall | Precision |
+|----------------|-----|------------|--------|-----------|
+| Month-to-month | 773 | 42,6%      | 1,00   | 0,43      |
+| One year       | 300 | 12,0%      | 0,86   | 0,15      |
+| Two year       | 336 | 2,7%       | 0,67   | 0,07      |
 
-Mensal é o segmento de maior risco e o modelo prioriza acertos lá. Recall cai em bianual porque a classe positiva é raríssima — informação escassa, não falha de modelo.
+Mensal é o segmento de maior risco e o modelo prioriza acertos lá (recall 1,00). Em contratos longos a classe positiva é rara — recall cai naturalmente e precision em bianual (0,07) reflete o quão escasso é o sinal positivo nesse segmento.
 
 ---
 
