@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+
 def test_predict_endpoint_with_valid_payload(client, valid_payload) -> None:
     """End-to-end: TestClient -> /predict -> 200 com formato esperado."""
     response = client.post("/predict", json=valid_payload)
@@ -28,7 +29,7 @@ def test_predict_endpoint_with_valid_payload(client, valid_payload) -> None:
     assert body["threshold"] == 0.08  # API_DECISION_THRESHOLD
     assert body["latency_ms"] >= 0.0
     assert body["model_version"]  # nao vazio
-    assert body["request_id"]     # nao vazio
+    assert body["request_id"]  # nao vazio
 
     # Headers customizados dos middlewares
     assert "x-request-id" in response.headers

@@ -1,23 +1,26 @@
 """Schemas Pydantic da API"""
 
 from __future__ import annotations
+
 from typing import Literal
+
 from pydantic import BaseModel, ConfigDict, Field
+
 
 class CustomerFeatures(BaseModel):
     """Features de 1 cliente, formato RAW do Telco Customer Churn (IBM)."""
 
     model_config = ConfigDict(
         json_schema_extra={
-            "example" : {
+            "example": {
                 "gender": "Female",
                 "SeniorCitizen": 0,
-                "Partner" : "Yes",
+                "Partner": "Yes",
                 "Dependents": "No",
                 "tenure": 1,
-                "PhoneService" : "No",
+                "PhoneService": "No",
                 "MultipleLines": "No phone service",
-                "InternetService" : "DSL",
+                "InternetService": "DSL",
                 "OnlineSecurity": "No",
                 "OnlineBackup": "Yes",
                 "DeviceProtection": "No",
@@ -28,7 +31,7 @@ class CustomerFeatures(BaseModel):
                 "PaperlessBilling": "Yes",
                 "PaymentMethod": "Electronic check",
                 "MonthlyCharges": 100.85,
-                "TotalCharges": 100.85,                
+                "TotalCharges": 100.85,
             }
         }
     )
@@ -55,8 +58,9 @@ class CustomerFeatures(BaseModel):
         "Bank transfer (automatic)",
         "Credit card (automatic)",
     ]
-    MonthlyCharges: float = Field(..., ge=0, le=500)    
+    MonthlyCharges: float = Field(..., ge=0, le=500)
     TotalCharges: float = Field(..., ge=0, le=40000)
+
 
 class PredictionResponse(BaseModel):
     """Resposta de POST /predict."""
@@ -69,6 +73,7 @@ class PredictionResponse(BaseModel):
     threshold: float = Field(..., ge=0, le=1, description="Threshold de decisão usado")
     model_version: str = Field(..., description="Identificador do modelo carregado")
     latency_ms: float = Field(..., ge=0, description="Latência interna do endpoint (ms)")
+
 
 class HealthResponse(BaseModel):
     """Resposta de GET /health. Sempre HTTP 200, mesmo em degraded."""

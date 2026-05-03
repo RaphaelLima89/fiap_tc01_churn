@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import time
 import uuid
-from collections.abc import Callable, Awaitable
+from collections.abc import Awaitable, Callable
 
 from fastapi import Request, Response
 
@@ -12,9 +12,10 @@ from churn_predictor.utils.logging import get_logger
 
 log = get_logger(__name__)
 
+
 async def request_id_middleware(
-        request: Request, 
-        call_next: Callable[[Request], Awaitable[Response]]) -> Response:
+    request: Request, call_next: Callable[[Request], Awaitable[Response]]
+) -> Response:
     """Middleware para gerar um UUID para cada requisição e ecoar no header de resposta."""
 
     incoming = request.headers.get("X-Request-ID")
@@ -25,9 +26,10 @@ async def request_id_middleware(
     response.headers["X-Request-ID"] = request_id
     return response
 
+
 async def latency_middleware(
-        request: Request, 
-        call_next: Callable[[Request], Awaitable[Response]]) -> Response:
+    request: Request, call_next: Callable[[Request], Awaitable[Response]]
+) -> Response:
     """Middleware para medir a latência de cada requisição e logar junto com o request_id."""
 
     start_time = time.perf_counter()
@@ -40,9 +42,9 @@ async def latency_middleware(
     log.info(
         "http_request",
         method=request.method,
-        path = request.url.path,
-        status_code = response.status_code,
-        latency_ms = round(elapsed_ms, 2),
-        request_id = getattr(request.state, "request_id", None),
+        path=request.url.path,
+        status_code=response.status_code,
+        latency_ms=round(elapsed_ms, 2),
+        request_id=getattr(request.state, "request_id", None),
     )
     return response

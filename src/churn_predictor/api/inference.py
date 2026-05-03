@@ -1,22 +1,28 @@
 """Carga do modelo e função de predição para a API."""
 
 from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import Any
+
 import joblib
 import pandas as pd
 from sklearn.pipeline import Pipeline
-from churn_predictor.config import MODEL_PATH, API_DECISION_THRESHOLD, MODEL_VERSION
+
+from churn_predictor.config import API_DECISION_THRESHOLD, MODEL_PATH, MODEL_VERSION
 from churn_predictor.utils.logging import get_logger
 
 log = get_logger(__name__)
 
+
 @dataclass
 class ModelState:
     """Estado do modelo carregado na API."""
+
     pipeline: Pipeline
-    threshold : float
+    threshold: float
     model_version: str
+
 
 _STATE: ModelState | None = None
 
@@ -30,28 +36,30 @@ INTERNET_DEPENDENT_COLS = [
     "StreamingMovies",
 ]
 
+
 def load_model_artifacts(threshold: float | None = None) -> ModelState:
     """Carrega o pipeline no disco e cacheia em memória."""
 
     global _STATE
     if not MODEL_PATH.exists():
         raise FileNotFoundError(f"Modelo não encontrado em {MODEL_PATH}")
-    
+
     pipeline = joblib.load(MODEL_PATH)
 
     _STATE = ModelState(
         pipeline=pipeline,
         threshold=threshold if threshold is not None else API_DECISION_THRESHOLD,
-        model_version=MODEL_VERSION
+        model_version=MODEL_VERSION,
     )
 
     log.info(
         "model_loaded",
-        version = _STATE.model_version,
-        threshold = _STATE.threshold,
-        classifier = type(pipeline.named_steps["classifier"]).__name__,
+        version=_STATE.model_version,
+        threshold=_STATE.threshold,
+        classifier=type(pipeline.named_steps["classifier"]).__name__,
     )
     return _STATE
+
 
 def get_state() -> ModelState:
     """Retorna o estado do modelo carregado. Lança erro se não tiver sido carregado."""
@@ -59,8 +67,8 @@ def get_state() -> ModelState:
         raise RuntimeError("Modelo não carregado. Chame load_model_artifacts() primeiro.")
     return _STATE
 
-def features_to_dataframe(features: dict[str, Any]) -> pd.DataFrame:
 
+def features_to_dataframe(features: dict[str, Any]) -> pd.DataFrame:
     """Converte o dicionário de features da requisição em um DataFrame para predição."""
 
     df = pd.DataFrame([features])

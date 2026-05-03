@@ -1,8 +1,7 @@
 """Schema test: pandera valida o parquet limpo."""
 
-import pandera.pandas as pa
 import pandas as pd
-from pandera.pandas import Column, DataFrameSchema, Check
+from pandera.pandas import Check, Column, DataFrameSchema
 
 TELCO_CLEAN_SCHEMA = DataFrameSchema(
     {
@@ -52,5 +51,5 @@ def test_clean_parquet_matches_schema(clean_dataset_path) -> None:
     assert len(validated) == len(df)
 
     # Sanity extras
-    assert df["TotalCharges"].isna().sum() == 0  
+    assert df["TotalCharges"].isna().sum() == 0
     assert df["MultipleLines"].isin(["Yes", "No"]).all()

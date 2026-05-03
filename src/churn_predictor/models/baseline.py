@@ -1,4 +1,5 @@
 """Modelos baseline: Regressão Logística e Random Forest."""
+
 from __future__ import annotations
 
 from typing import Any
@@ -23,29 +24,39 @@ logger = get_logger(__name__)
 
 def build_logreg() -> Pipeline:
     """Pipeline: preprocessor + LogReg com class_weight='balanced'."""
-    return Pipeline([
-        ("preprocessor", build_preprocessor()),
-        ("classifier", LogisticRegression(
-            class_weight="balanced",
-            max_iter=1000,
-            random_state=RANDOM_SEED,
-        )),
-    ])
+    return Pipeline(
+        [
+            ("preprocessor", build_preprocessor()),
+            (
+                "classifier",
+                LogisticRegression(
+                    class_weight="balanced",
+                    max_iter=1000,
+                    random_state=RANDOM_SEED,
+                ),
+            ),
+        ]
+    )
 
 
 def build_random_forest() -> Pipeline:
     """Pipeline: preprocessor + Random Forest com class_weight='balanced'."""
-    return Pipeline([
-        ("preprocessor", build_preprocessor()),
-        ("classifier", RandomForestClassifier(
-            n_estimators=200,
-            max_depth=None,
-            min_samples_leaf=2,
-            class_weight="balanced",
-            random_state=RANDOM_SEED,
-            n_jobs=-1,
-        )),
-    ])
+    return Pipeline(
+        [
+            ("preprocessor", build_preprocessor()),
+            (
+                "classifier",
+                RandomForestClassifier(
+                    n_estimators=200,
+                    max_depth=None,
+                    min_samples_leaf=2,
+                    class_weight="balanced",
+                    random_state=RANDOM_SEED,
+                    n_jobs=-1,
+                ),
+            ),
+        ]
+    )
 
 
 def evaluate(

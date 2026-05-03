@@ -12,29 +12,29 @@ from fastapi.responses import RedirectResponse
 from churn_predictor.api.inference import (
     get_state,
     load_model_artifacts,
+)
+from churn_predictor.api.inference import (
     predict as run_inference,
 )
-
-from churn_predictor.api.schemas import (
-    PredictionResponse,
-    HealthResponse,
-    CustomerFeatures,
-)
-
 from churn_predictor.api.middleware import (
     latency_middleware,
     request_id_middleware,
 )
-
+from churn_predictor.api.schemas import (
+    CustomerFeatures,
+    HealthResponse,
+    PredictionResponse,
+)
 from churn_predictor.utils.logging import get_logger
 
 log = get_logger(__name__)
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     """Lifespan do FastAPI para carregar o modelo na inicialização da API."""
     log.info("Starting API and loading model artifacts...")
-    
+
     try:
         load_model_artifacts()
         log.info("Model artifacts loaded successfully.")
@@ -42,6 +42,7 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         log.error("Model artifacts not found. API will start without model.", error=str(e))
     yield
     log.info("Shutting down API...")
+
 
 app = FastAPI(
     title="Churn Predictor API",
@@ -54,12 +55,19 @@ app = FastAPI(
 app.middleware("http")(latency_middleware)
 app.middleware("http")(request_id_middleware)
 
+
 @app.get("/", include_in_schema=False)
 async def root() -> RedirectResponse:
     """Redireciona pra documentação interativa."""
     return RedirectResponse(url="/docs")
 
-@app.get("/health", response_model=HealthResponse, tags=["Health"], summary="Verifica a saúde da API e status do modelo.")
+
+@app.get(
+    "/health",
+    response_model=HealthResponse,
+    tags=["Health"],
+    summary="Verifica a saúde da API e status do modelo.",
+)
 async def health() -> HealthResponse:
     """Endpoint de saúde da API. Sempre retorna http 200. Se o modelo não carregou, status sera 'degraded'."""
     try:
@@ -72,12 +80,10 @@ async def health() -> HealthResponse:
         )
     except RuntimeError:
         return HealthResponse(
-            status="degraded",
-            model_loaded=False,
-            model_version=None,
-            threshold=None
+            status="degraded", model_loaded=False, model_version=None, threshold=None
         )
-    
+
+
 @app.post(
     "/predict",
     response_model=PredictionResponse,

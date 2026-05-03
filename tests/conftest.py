@@ -2,23 +2,21 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterator
 from pathlib import Path
-from typing import Iterator
 
 import pytest
 from fastapi.testclient import TestClient
 
 from churn_predictor.config import INTERIM_DIR, MODEL_PATH
 
+
 @pytest.fixture(scope="session")
 def clean_dataset_path() -> Path:
     """Caminho do parquet limpo gerado pela EDA. Skip se ausente."""
     path = INTERIM_DIR / "telco_clean.parquet"
     if not path.exists():
-        pytest.skip(
-            f"Parquet limpo nao encontrado em {path}. "
-            "Rode notebooks/01_eda.ipynb antes."
-        )
+        pytest.skip(f"Parquet limpo nao encontrado em {path}. Rode notebooks/01_eda.ipynb antes.")
     return path
 
 
@@ -31,8 +29,7 @@ def client() -> Iterator[TestClient]:
     """
     if not MODEL_PATH.exists():
         pytest.skip(
-            f"Modelo nao encontrado em {MODEL_PATH}. "
-            "Rode notebooks/02_modelos.ipynb antes."
+            f"Modelo nao encontrado em {MODEL_PATH}. Rode notebooks/02_modelos.ipynb antes."
         )
 
     # Import dentro da fixture: evita disparar carga do FastAPI na coleta

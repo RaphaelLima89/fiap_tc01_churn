@@ -1,4 +1,5 @@
 """MLP simples para classificação binária de churn."""
+
 from __future__ import annotations
 
 import torch.nn as nn
@@ -17,11 +18,13 @@ class ChurnMLP(nn.Module):
         layers = []
         prev = input_dim
         for h in hidden_dims:
-            layers.extend([
-                nn.Linear(prev, h),
-                nn.ReLU(),
-                nn.Dropout(dropout),
-            ])
+            layers.extend(
+                [
+                    nn.Linear(prev, h),
+                    nn.ReLU(),
+                    nn.Dropout(dropout),
+                ]
+            )
             prev = h
         layers.append(nn.Linear(prev, 1))  # logit
         self.net = nn.Sequential(*layers)

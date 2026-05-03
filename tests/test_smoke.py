@@ -1,12 +1,12 @@
 """Smoke test: pipeline de dados de ponta a ponta."""
 
-
-from __future__ import annotations  
+from __future__ import annotations
 
 import pandas as pd
 
-from churn_predictor.config import RANDOM_SEED, TARGET_COLUMN, TEST_SIZE
+from churn_predictor.config import TARGET_COLUMN, TEST_SIZE
 from churn_predictor.data.loader import get_train_test_split, load_clean_data
+
 
 def test_train_test_split_works(clean_dataset_path) -> None:
     """Carrega o parquet limpo, faz split estratificado e valida invariantes."""

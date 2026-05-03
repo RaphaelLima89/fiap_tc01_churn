@@ -1,4 +1,5 @@
 """Dataset PyTorch para o pipeline de churn."""
+
 from __future__ import annotations
 
 import numpy as np

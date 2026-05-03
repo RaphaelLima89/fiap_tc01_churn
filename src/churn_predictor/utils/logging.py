@@ -1,10 +1,12 @@
-""" Configurando o logging via structlog"""
+"""Configurando o logging via structlog"""
 
 from __future__ import annotations
 
 import logging
 import os
+
 import structlog
+
 
 def configure_logging(level: str = "INFO", json_logs: bool | None = None) -> None:
     """Configura o structlog
@@ -19,10 +21,7 @@ def configure_logging(level: str = "INFO", json_logs: bool | None = None) -> Non
         json_logs = os.getenv("LOG_JSON", "false").lower() == "true"
 
     # Logging stdlib em paralelo
-    logging.basicConfig (
-        format="%(message)s",
-        level=level
-    )
+    logging.basicConfig(format="%(message)s", level=level)
 
     # timestamp, level, contexto bound
     shared_processors = [
@@ -33,16 +32,15 @@ def configure_logging(level: str = "INFO", json_logs: bool | None = None) -> Non
 
     if json_logs:
         renderer = structlog.processors.JSONRenderer()
-    else: 
+    else:
         renderer = structlog.dev.ConsoleRenderer(colors=True)
 
     structlog.configure(
         processors=[*shared_processors, renderer],
-        wrapper_class=structlog.make_filtering_bound_logger(
-            logging.getLevelName(level)
-        ),
+        wrapper_class=structlog.make_filtering_bound_logger(logging.getLevelName(level)),
         cache_logger_on_first_use=True,
     )
+
 
 def get_logger(name: str | None = None) -> structlog.BoundLogger:
     """Retorna o logger nomeado"""

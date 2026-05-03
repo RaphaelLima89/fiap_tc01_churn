@@ -1,13 +1,14 @@
 """Pipeline de pré-processamento: scaling + encoding."""
+
 from __future__ import annotations
 
 from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 from churn_predictor.data.loader import (
-    NUMERIC_FEATURES,
     BINARY_CAT_FEATURES,
     MULTI_CAT_FEATURES,
+    NUMERIC_FEATURES,
 )
 
 
