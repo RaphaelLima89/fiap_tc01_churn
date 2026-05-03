@@ -39,6 +39,13 @@ Para lint:
 make lint                   # ou .\tasks.ps1 lint
 ```
 
+## Deploy live
+
+API pública em <https://fiap-tc01-churn.onrender.com>. Swagger em [/docs](https://fiap-tc01-churn.onrender.com/docs).
+
+---
+
+
 ---
 
 ## Estrutura
