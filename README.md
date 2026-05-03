@@ -93,7 +93,7 @@ curl -X POST http://127.0.0.1:8000/predict \
 
 ## Reprodutibilidade
 
-Seed `42` em todos os pontos não-determinísticos (`train_test_split`, `RandomForestClassifier`, `KFold`, `numpy`, `torch.manual_seed`, `torch.cuda.manual_seed_all`). Tracking do MLflow em `mlruns/` (filesystem backend); cada run tem tags, parâmetros, métricas (CV mean/std + test) e modelo serializado como artifact. Abrir a UI: `poetry run mlflow ui` → `http://127.0.0.1:5000`.
+Seed `42` em todos os pontos não-determinísticos (`train_test_split`, `RandomForestClassifier`, `KFold`, `numpy`, `torch.manual_seed`). Tracking do MLflow em `mlruns/` (filesystem backend); cada run tem tags, parâmetros, métricas (CV mean/std + test) e modelo serializado como artifact. Abrir a UI: `poetry run mlflow ui` → `http://127.0.0.1:5000`.
 
 ---
 

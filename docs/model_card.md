@@ -1,6 +1,6 @@
 # Model Card — Churn Predictor (Random Forest balanceado)
 
-Define o que monitorar em produção, com quais limiares, e como responder. Estrutura baseada na Aula 05 do ciclo de vida e ancorada nos SLOs de `docs/ml_canvas.md`.
+Estrutura baseada em Mitchell et al. (2019). Cobre detalhes do modelo, performance, limitações e vieses.
 
 ---
 
