@@ -27,3 +27,8 @@ RANDOM_SEED = 42
 TARGET_COLUMN = "Churn"
 ID_COLUMN = "customerID"
 TEST_SIZE = 0.2
+
+# Configurações da API
+MODEL_PATH = MODELS_DIR / "final.joblib"
+MODEL_VERSION = "random_forest_balanced_v1"
+API_DECISION_THRESHOLD = 0.08
